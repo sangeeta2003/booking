@@ -7,7 +7,10 @@ const Register = () => {
     const [password,setPassword] = useState('');
     function registerUser(e){
         e.preventDefault();
-axios.get('http://localhost:4000/test')
+axios.post('/register',{
+    name,
+    email,password
+})
     }
   return (
     <div className="mt-4 grow flex jusify-center justify-around">
@@ -16,7 +19,7 @@ axios.get('http://localhost:4000/test')
      
       <h1 className="text-4xl text-center mb-4 font-bold">Register</h1>
 <form className="max-w-md mx-auto " onSubmit={registerUser}>
-    <input type="text " placeholder="sangeeta m"value={name} onChange={e=>setName(e.target.value)}></input>
+    <input type="text " placeholder="sangeeta m"value={name} onChange={e=>setName(e.target.value)} className="w-full border my-1 py-2 px-3 rounded-2xl"></input>
   <input type="email" placeholder="your@gmail.com" className="w-full border my-1 py-2 px-3 rounded-2xl"
   
   value={email} onChange={e=>setEmail(e.target.value)}></input>
