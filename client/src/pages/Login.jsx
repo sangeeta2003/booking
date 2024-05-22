@@ -8,7 +8,7 @@ const[password,setPassword] = useState();
 async function LoginUser(e){
 e.preventDefault();
 try{
-  await axios.post('/login',{email,password})
+  await axios.post('/login',{email,password},{ withCredentials: true })
   alert('login successfully')
 }catch(e){
   console.log(e);

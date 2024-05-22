@@ -7,6 +7,8 @@ const User =require('./models/user')
 const bcrypt = require('bcryptjs')
 const app =  express();
 const bcryptSalt = bcrypt.genSaltSync(10);
+
+const jwtSecret = 'sangeetamishra'
 app.use(express.json());
 app.use(cors({
     credentials:true,
@@ -31,26 +33,26 @@ app.post('/register',async(req,res)=>{
   
 })
 
-app.post('/login',async(req,res)=>{
-    const{email,password} = req.body;
-    try{
-const userdoc = await User.findOne({email})
-if(userdoc){
-    const passOk = bcrypt.compareSync(password,userdoc.password)
-    if(passOk){
-        res.cookie('token','').json('pass ok');
-        res.json('pass ok');
+app.post('/api/login', async (req,res) => {
+    mongoose.connect(process.env.MONGO_URL);
+    const {email,password} = req.body;
+    const userDoc = await User.findOne({email});
+    if (userDoc) {
+      const passOk = bcrypt.compareSync(password, userDoc.password);
+      if (passOk) {
+        jwt.sign({
+          email:userDoc.email,
+          id:userDoc._id
+        }, jwtSecret, {}, (err,token) => {
+          if (err) throw err;
+          res.cookie('token', token).json(userDoc);
+        });
+      } else {
+        res.status(422).json('pass not ok');
+      }
+    } else {
+      res.json('not found');
     }
-    else{
-        res.json('pass not ok');
-    }
-    res.json('found')
-}else{
-    res.json('not found')
-}
-    }catch(e){
-        re.status(500).json(e);
-    }
-})
+  });
 
 app.listen(4000);
