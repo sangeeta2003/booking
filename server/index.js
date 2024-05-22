@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors')
+const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
 require('dotenv').config()
 const User =require('./models/user')
@@ -28,6 +29,28 @@ app.post('/register',async(req,res)=>{
         res.status(500).json(e)
     }
   
+})
+
+app.post('/login',async(req,res)=>{
+    const{email,password} = req.body;
+    try{
+const userdoc = await User.findOne({email})
+if(userdoc){
+    const passOk = bcrypt.compareSync(password,userdoc.password)
+    if(passOk){
+        res.cookie('token','').json('pass ok');
+        res.json('pass ok');
+    }
+    else{
+        res.json('pass not ok');
+    }
+    res.json('found')
+}else{
+    res.json('not found')
+}
+    }catch(e){
+        re.status(500).json(e);
+    }
 })
 
 app.listen(4000);
