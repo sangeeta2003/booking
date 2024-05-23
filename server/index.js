@@ -55,7 +55,7 @@ app.post('/login', async (req, res) => {
             if (err) {
               return res.status(500).json('Error signing token');
             }
-            res.cookie('token', token).json('Login successful');
+            res.cookie('token', token).json(userDoc);
           }
         );
       } else {
@@ -68,6 +68,11 @@ app.post('/login', async (req, res) => {
     res.status(500).json(e);
   }
 });
+
+app.get('/profile',async(req,res)=>{
+  const {token} = req.cookies;
+re.json('userinfo')
+})
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');

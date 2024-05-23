@@ -1,0 +1,19 @@
+{
+  "name": "booking",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+   
+    "dev": "npx concurrently \"yarn server\" \"yarn client\"",
+    "build": "npx concurrently \"yarn backend:build\" \"yarn frontend:build\"",
+    "server": "cd server && yarn dev",
+    "client": "cd client && yarn dev",
+    "backend:build": "cd server && yarn build",
+    "frontend:build": "cd client && yarn build",
+    "format": "prettier --write ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

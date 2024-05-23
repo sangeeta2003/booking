@@ -5,11 +5,14 @@ import Login from './pages/Login';
 import Layout from './pages/Layout';
 import Register from './pages/Register';
 import axios from 'axios';
+import UserContextProvider from './pages/UserContext'
 axios.defaults.baseURL = 'http://localhost:4000';
 axios.defaults.withCredentials = true;
 function App() {
   return (
-    <BrowserRouter>
+
+    <UserContextProvider>
+  <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path="/" element={<Home />} />
@@ -18,6 +21,8 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+    </UserContextProvider>
+  
   );
 }
 
