@@ -6,10 +6,13 @@ require('dotenv').config();
 const User = require('./models/user');
 const bcrypt = require('bcryptjs');
 const app = express();
+
+const cookieParser = require('cookie-parser')
 const bcryptSalt = bcrypt.genSaltSync(10);
 
 const jwtSecret = 'sangeetamishra';
 app.use(express.json());
+app.use(cookieParser())
 app.use(
   cors({
     credentials: true,
@@ -48,7 +51,7 @@ app.post('/login', async (req, res) => {
       const passOk = bcrypt.compareSync(password, userDoc.password);
       if (passOk) {
         jwt.sign(
-          { email: userDoc.email, id: userDoc._id },
+          { email: userDoc.email, id: userDoc._id ,name:userDoc.name},
           jwtSecret,
           {},
           (err, token) => {
@@ -69,10 +72,22 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/profile',async(req,res)=>{
+app.get('/profile',(req,res)=>{
   const {token} = req.cookies;
-re.json('userinfo')
+  if(token){
+jwt.verify(token,jwtSecret,{},(e,user)=>{
+  if(e){
+    throw e;
+  }
+  else{
+    res.json(user);
+  }
 })
+  }else{
+    return res.status(401).json('No token provided');
+  }
+
+});
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
