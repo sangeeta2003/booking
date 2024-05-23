@@ -1,12 +1,12 @@
-import Header from "./Header"
-import { Outlet } from "react-router-dom"
+import Header from './Header';
+import { Outlet } from 'react-router-dom';
 const Layout = () => {
   return (
     <div className="flex p-4 flex-col">
-        <Header/>
-        <Outlet/>
+      <Header />
+      <Outlet />
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
