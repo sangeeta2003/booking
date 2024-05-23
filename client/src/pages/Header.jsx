@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div>
       <header className="p-4 flex justify-between">
-        <a href="" className="logo flex flex-row gap-2 items-center ">
+        <Link to={'/'} className="logo flex flex-row gap-2 items-center ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -22,7 +22,7 @@ const Header = () => {
             />
           </svg>
           <span className="font-bold text-xl">airbanc</span>
-        </a>
+        </Link>
         <div className="flex border gap-2 border-gray-300 rounded-full px-4 py-2 shadow-md shadow-gray-500">
           <div>Anywhere</div>
           <div className="border-l border-gray-300"></div>
@@ -47,7 +47,7 @@ const Header = () => {
           </button>
         </div>
         <Link
-          to="/login"
+          to={user?'/account':"/login"}
           className="flex border gap-2 items-center border-gray-500 rounded-full px-4 py-2"
         >
           <svg

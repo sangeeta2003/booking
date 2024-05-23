@@ -51,7 +51,7 @@ app.post('/login', async (req, res) => {
       const passOk = bcrypt.compareSync(password, userDoc.password);
       if (passOk) {
         jwt.sign(
-          { email: userDoc.email, id: userDoc._id ,name:userDoc.name},
+          { email: userDoc.email, id: userDoc._id },
           jwtSecret,
           {},
           (err, token) => {
@@ -75,13 +75,15 @@ app.post('/login', async (req, res) => {
 app.get('/profile',(req,res)=>{
   const {token} = req.cookies;
   if(token){
-jwt.verify(token,jwtSecret,{},(e,user)=>{
+jwt.verify(token,jwtSecret,{},async(e, userData)=>{
   if(e){
     throw e;
+
   }
-  else{
-    res.json(user);
-  }
+  
+  
+  const{name,email,_id} = await User.findById(userData.id)
+  res.json({name,email,_id})
 })
   }else{
     return res.status(401).json('No token provided');
@@ -91,4 +93,4 @@ jwt.verify(token,jwtSecret,{},(e,user)=>{
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
-});
+})
