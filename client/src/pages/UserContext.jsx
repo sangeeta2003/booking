@@ -1,23 +1,23 @@
-import axios from 'axios';
-import { createContext, useEffect, useState } from 'react';
+import {createContext, useEffect, useState} from "react";
+import axios from "axios";
+import {data} from "autoprefixer";
 
 export const UserContext = createContext({});
 
-export default function UserContextProvider({ children }) {
-    // Use state or other logic to manage context values
-    const [user, setUser] = useState(null);
-    useEffect(()=>{
-if(!user){
-    axios.get('/profile').then(({data})=>{
+export default function UserContextProvider({children}) {
+  const [user,setUser] = useState(null);
+  const [ready,setReady] = useState(false);
+  useEffect(() => {
+    if (!user) {
+      axios.get('/profile').then(({data}) => {
         setUser(data);
-    });
-   
-}
-    },[]);
-
-    return (
-        <UserContext.Provider value={{ user, setUser }}>
-            {children}
-        </UserContext.Provider>
-    );
+        setReady(true);
+      });
+    }
+  }, []);
+  return (
+    <UserContext.Provider value={{user,setUser,ready}}>
+      {children}
+    </UserContext.Provider>
+  );
 }
