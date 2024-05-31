@@ -22,8 +22,6 @@ async function logout(){
         return <Navigate to='/login' />;
     }
 
-   
-
     function linkclasses(type = null) {
         let classes = 'py-2 px-6';
         if (type === subpage) {

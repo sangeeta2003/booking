@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 const Header = () => {
   const {user} = useContext(UserContext)
+  
   return (
     <div>
       <header className="p-4 flex justify-between">

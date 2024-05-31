@@ -80,8 +80,6 @@ jwt.verify(token,jwtSecret,{},async(e, userData)=>{
     throw e;
 
   }
-  
-  
   const{name,email,_id} = await User.findById(userData.id)
   res.json({name,email,_id})
 })
