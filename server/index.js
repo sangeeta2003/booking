@@ -7,12 +7,12 @@ const User = require('./models/user');
 const bcrypt = require('bcryptjs');
 const app = express();
 
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
 const bcryptSalt = bcrypt.genSaltSync(10);
 
 const jwtSecret = 'sangeetamishra';
 app.use(express.json());
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
@@ -72,23 +72,21 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/profile',(req,res)=>{
-  const {token} = req.cookies;
-  if(token){
-jwt.verify(token,jwtSecret,{},async(e, userData)=>{
-  if(e){
-    throw e;
-
-  }
-  const{name,email,_id} = await User.findById(userData.id)
-  res.json({name,email,_id})
-})
-  }else{
+app.get('/profile', (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, jwtSecret, {}, async (e, userData) => {
+      if (e) {
+        throw e;
+      }
+      const { name, email, _id } = await User.findById(userData.id);
+      res.json({ name, email, _id });
+    });
+  } else {
     return res.status(401).json('No token provided');
   }
-
 });
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
-})
+});
