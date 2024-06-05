@@ -45,7 +45,7 @@ const Account = () => {
       </nav>
       {subpage === 'profile' && (
         <div className="text-center w-full  mx-auto">
-          Logges in as{user.name} ({user.email}) <br></br>
+          Logges in as {user.name} ({user.email}) <br></br>
           <button className="bg-primary text-white w-1/4 py-2 px-6 rounded-full  mt-2">
             Logout
           </button>
