@@ -31,6 +31,10 @@ const PlacePage = () => {
     );
   }
 
+
+  function CopyPhoto(){
+    
+  }
   return (
     <div>
       {action !== 'new' && (
@@ -63,11 +67,11 @@ const PlacePage = () => {
 
           <input value={title} onChange={e =>setTitle(e.target.value)} type="text" placeholder="title,for example: My " className='w-full rounded-full py-2 border border-gray-300' />
           {preInput('Address', 'Address to this place')}
-          <input value={address} onChange={e => setAddress(e.target.value)} type="text" placeholder="address" />
+          <input value={address} onChange={e => setAddress(e.target.value)} type="text" placeholder="address" className='w-full rounded-full py-2 border border-gray-300' />
           {preInput('Photos', 'more == better')}
 
           <div className="flex gap-2">
-            <input value={photoLink} onChange={e => setPhotoLink(e.target.value)}  type="text" placeholder="Add using a link...jpg" />
+            <input value={photoLink} onChange={e => setPhotoLink(e.target.value)}  type="text" placeholder="Add using a link...jpg"className='w-full rounded-full py-2 border border-gray-300' />
             <button className="bg-gray-200 px-4 rounded-2xl">
               Add&nbsp;Photo
             </button>

@@ -91,6 +91,10 @@ app.post('/logout', async (req, res) => {
   res.cookie('token', '').json(true);
 });
 
+app.post('/upload-by-link',async(req,res)=>{
+  const {Link} = req.body;
+})
+
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
 });

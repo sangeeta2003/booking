@@ -16,6 +16,7 @@
     "prettier": "^3.2.5"
   },
   "dependencies": {
-    "cookie-parser": "^1.4.6"
+    "cookie-parser": "^1.4.6",
+    "image-downloader": "^4.3.0"
   }
 }
