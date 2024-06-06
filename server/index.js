@@ -99,7 +99,8 @@ app.post('/upload-by-link',async(req,res)=>{
   await download.image({
     url:link,
     dest:__dirname + '/uploads' + newName,
-  })
+  });
+  res.json(__dirname + '/uploads' + newName);
 
 })
 

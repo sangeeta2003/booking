@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-
+import axios from 'axios';
 import Perk from './Perk';
 const PlacePage = () => {
   const { action } = useParams();
@@ -32,8 +32,8 @@ const PlacePage = () => {
   }
 
 
-  function CopyPhoto(){
-    
+  async function CopyPhoto(){
+    await axios.post('/upload-by-link')
   }
   return (
     <div>
