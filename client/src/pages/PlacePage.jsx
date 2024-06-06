@@ -32,8 +32,9 @@ const PlacePage = () => {
   }
 
 
-  async function CopyPhoto(){
-    await axios.post('/upload-by-link')
+  async function CopyPhoto(e){
+    e.preventDefault();
+    await axios.post('/upload-by-link',{link:photoLink})
   }
   return (
     <div>
@@ -72,7 +73,7 @@ const PlacePage = () => {
 
           <div className="flex gap-2">
             <input value={photoLink} onChange={e => setPhotoLink(e.target.value)}  type="text" placeholder="Add using a link...jpg"className='w-full rounded-full py-2 border border-gray-300' />
-            <button className="bg-gray-200 px-4 rounded-2xl">
+            <button onClick={CopyPhoto} className="bg-gray-200 px-4 rounded-2xl">
               Add&nbsp;Photo
             </button>
           </div>
