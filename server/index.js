@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const User = require('./models/user');
 const bcrypt = require('bcryptjs');
+const imageDownloader = require('image-downloader')
 const app = express();
 
 const cookieParser = require('cookie-parser');
@@ -90,9 +91,16 @@ app.get('/profile', (req, res) => {
 app.post('/logout', async (req, res) => {
   res.cookie('token', '').json(true);
 });
+console.log({__dirname})
 
 app.post('/upload-by-link',async(req,res)=>{
-  const {Link} = req.body;
+  const {link} = req.body;
+  const newName = Date.now() + '.jpg'
+  await download.image({
+    url:link,
+    dest:__dirname + '/uploads' + newName,
+  })
+
 })
 
 app.listen(4000, () => {
