@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Perk from './Perk';
+import { response } from 'express';
 
 const PlacePage = () => {
   const { action } = useParams();
@@ -43,6 +44,20 @@ const PlacePage = () => {
         console.error('Error uploading photo:', error);
     }
     setPhotoLink('');
+  }
+  async function UploadPhoto(e){
+    const files =e.target.value;
+    const data = new FormData();
+    data.set('photos',files)
+   await axios.post('/upload',data,{
+        headers:{'Content-Type':'multipart/form-data'}
+    }).then(response=>{
+        const {data:filename} = response;
+        setAddPhoto(prev =>{
+            return[...prev,filename]
+        })
+        console.log(data);
+    })
   }
 
   return (
@@ -102,11 +117,21 @@ const PlacePage = () => {
               Add&nbsp;Photo
             </button>
           </div>
+
+          
           <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 mt-4 gap-2">
             {addPhoto.length > 0 && addPhoto.map((link, index) => (
                 <img src={'http://localhost:4000/uploads/'+link} key={index}  alt="Uploaded" className="rounded-2xl" />
             ))}
+            <label className='flex gap-1 justify-center border rounded-2xl items-center border-gray-300 '>
+            <input type='file' className='hidden' onChange={UploadPhoto}/>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+</svg>
+
+          </label>
           </div>
+          
           {preInput('Description', 'Description of the place')}
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
           {preInput('Perks', 'Select all the perks of your place')}
