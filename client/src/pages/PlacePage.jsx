@@ -1,7 +1,41 @@
+import { useState } from "react";
 import { Link,useParams } from "react-router-dom"
 const PlacePage = () => {
     const {action} = useParams();
-    
+    const[title,setTitle] = useState('');
+    const[address,setAddress] = useState('');
+    const[addPhoto,setAddPhoto] = useState([]);
+    const[photoLink,setPhotoLink] = useState('');
+    const[description,setDecription] = useState('');
+    const[perks,setPerks] = useState([]);
+    const[extraInfo,setExtraInfo] = useState('');
+    const[checkIn,setCheckIn] = useState('');
+    const[checkOut,setCheckOut]= useState('');
+    const[maxGuests,setMaxGuests] = useState('');
+
+
+function inputHeader(text){
+    return(
+        <h2 className="text-2xl mt-4">{text}</h2>
+    )
+}
+
+function inputDescription(text){
+    return(
+        <p className="text-gray-500 text-sm">{text}</p>
+    )
+}
+function preInput(header,description){
+    return(
+        <>
+        {inputHeader(header)}
+        {inputDescription(description)}
+        </>
+    )
+}
+
+
+
   return (
     <div>
         {action !== 'new' &&(
@@ -19,14 +53,13 @@ const PlacePage = () => {
             
 
            <form>
-            <h2 className="text-2xl mt-4">Title</h2>
-            <p className="text-gray-500 text-sm">Title for your place and be confort for this</p>
+            {preInput('Title','Title for your place and be confort for this')}
+            
             <input type="text" placeholder="title,for example: My "/>
-            <h2 className="text-2xl mt-4">Address</h2>
-            <p className="text-gray-500 text-sm">Address to this place</p>
+            {preInput('Address','Address to this place')}
             <input type="text" placeholder="address"/>
-            <h2 className="text-2xl mt-4">Photos</h2>
-            <p className="text-gray-500 text-sm">more == better</p>
+            {preInput('Photos','more == better')}
+           
             <div className="flex gap-2">
                 <input type="text" placeholder="Add using a link...jpg"/>
                 <button className="bg-gray-200 px-4 rounded-2xl">Add&nbsp;Photo</button>
@@ -97,11 +130,11 @@ const PlacePage = () => {
                     <span>Private entrance</span>
                 </label>
             </div>
-            <h2 className="text-2xl mt-4">extra Info</h2>
-            <p className="text-gray-500 text-sm">house rules,etc</p>
+            {preInput('extra Info','house rules,etc')}
+            
             <textarea/>
-            <h2 className="text-2xl mt-4">Check in&out times</h2>
-            <p className="text-gray-500 text-sm">add check in & out times,rembember some time to cleaning widnoes</p>
+            {preInput('Check in&out times','add check in & out times,rembember some time to cleaning widnoes')}
+           
             <div className="grid sm:grid-cols-3 gap-1">
                 <div>
                     <h3 className="mt-2 -mb-1">Check in time</h3>
