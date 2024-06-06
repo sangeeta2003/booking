@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const User = require('./models/user');
 const bcrypt = require('bcryptjs');
-const imageDownloader = require('image-downloader')
+const imageDownloader = require('image-downloader');
 const app = express();
 
 const cookieParser = require('cookie-parser');
@@ -91,18 +91,20 @@ app.get('/profile', (req, res) => {
 app.post('/logout', async (req, res) => {
   res.cookie('token', '').json(true);
 });
-console.log({__dirname})
 
-app.post('/upload-by-link',async(req,res)=>{
-  const {link} = req.body;
-  const newName = Date.now() + '.jpg'
-  await download.image({
-    url:link,
-    dest:__dirname + '/uploads' + newName,
-  });
-  res.json(__dirname + '/uploads' + newName);
-
-})
+app.post('/upload-by-link', async (req, res) => {
+  const { link } = req.body;
+  const newName = 'photo' + Date.now() + '.jpg';
+  try {
+    await imageDownloader.image({
+      url: link,
+      dest: __dirname + '/uploads/' + newName,
+    });
+    res.json(newName);
+  } catch (error) {
+    res.status(500).json('Error downloading image');
+  }
+});
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
