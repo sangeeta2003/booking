@@ -36,15 +36,11 @@ const PlacePage = () => {
   async function CopyPhoto(e) {
     e.preventDefault();
     try {
-      const {response:filename} = await axios.post('http://localhost:4000/upload-by-link', { link: photoLink });
-    //   console.log('Photo uploaded:', response.data);
-      // Handle the uploaded photo response here
-      setAddress(prev =>{
-        return[...prev,filename]
-      });
-      
+        const response = await axios.post('http://localhost:4000/upload-by-link', { link: photoLink });
+        const filename = response.data;
+        setAddPhoto(prev => [...prev, filename]);
     } catch (error) {
-      console.error('Error uploading photo:', error);
+        console.error('Error uploading photo:', error);
     }
     setPhotoLink('');
   }
@@ -63,7 +59,7 @@ const PlacePage = () => {
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-6 h-6"
+              className="w-6 h-6"
             >
               <path
                 stroke-linecap="round"
@@ -106,27 +102,10 @@ const PlacePage = () => {
               Add&nbsp;Photo
             </button>
           </div>
-          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 mt-4">
-            {addPhoto.length > 0 && addPhoto.map(link =>(
-               {link}
+          <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 mt-4 gap-2">
+            {addPhoto.length > 0 && addPhoto.map((link, index) => (
+                <img src={'http://localhost:4000/uploads/'+link} key={index}  alt="Uploaded" className="rounded-2xl" />
             ))}
-            <button className="flex justify-center gap-1 border bg-transparent rounded-2xl p-4 text-2xl text-gray-500">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="w-8 h-8"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
-                />
-              </svg>
-              Upload
-            </button>
           </div>
           {preInput('Description', 'Description of the place')}
           <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
