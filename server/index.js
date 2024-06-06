@@ -12,7 +12,7 @@ const cookieParser = require('cookie-parser');
 const bcryptSalt = bcrypt.genSaltSync(10);
 
 const jwtSecret = 'sangeetamishra';
-app.use('/uploads',express.static(__dirname+'/uploads'))
+app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(
@@ -107,7 +107,7 @@ app.post('/upload-by-link', async (req, res) => {
   }
 });
 
-app.post('/upload',)
+app.post('/upload');
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');

@@ -37,27 +37,32 @@ const PlacePage = () => {
   async function CopyPhoto(e) {
     e.preventDefault();
     try {
-        const response = await axios.post('http://localhost:4000/upload-by-link', { link: photoLink });
-        const filename = response.data;
-        setAddPhoto(prev => [...prev, filename]);
+      const response = await axios.post(
+        'http://localhost:4000/upload-by-link',
+        { link: photoLink }
+      );
+      const filename = response.data;
+      setAddPhoto(prev => [...prev, filename]);
     } catch (error) {
-        console.error('Error uploading photo:', error);
+      console.error('Error uploading photo:', error);
     }
     setPhotoLink('');
   }
-  async function UploadPhoto(e){
-    const files =e.target.value;
+  async function UploadPhoto(e) {
+    const files = e.target.value;
     const data = new FormData();
-    data.set('photos',files)
-   await axios.post('/upload',data,{
-        headers:{'Content-Type':'multipart/form-data'}
-    }).then(response=>{
-        const {data:filename} = response;
-        setAddPhoto(prev =>{
-            return[...prev,filename]
-        })
+    data.set('photos', files);
+    await axios
+      .post('/upload', data, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      .then(response => {
+        const { data: filename } = response;
+        setAddPhoto(prev => {
+          return [...prev, filename];
+        });
         console.log(data);
-    })
+      });
   }
 
   return (
@@ -91,7 +96,7 @@ const PlacePage = () => {
           {preInput('Title', 'Title for your place and be comfort for this')}
           <input
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={e => setTitle(e.target.value)}
             type="text"
             placeholder="Title, for example: My cozy apartment"
             className="w-full rounded-full py-2 border border-gray-300"
@@ -99,7 +104,7 @@ const PlacePage = () => {
           {preInput('Address', 'Address to this place')}
           <input
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={e => setAddress(e.target.value)}
             type="text"
             placeholder="Address"
             className="w-full rounded-full py-2 border border-gray-300"
@@ -108,45 +113,72 @@ const PlacePage = () => {
           <div className="flex gap-2">
             <input
               value={photoLink}
-              onChange={(e) => setPhotoLink(e.target.value)}
+              onChange={e => setPhotoLink(e.target.value)}
               type="text"
               placeholder="Add using a link...jpg"
               className="w-full rounded-full py-2 border border-gray-300"
             />
-            <button onClick={CopyPhoto} className="bg-gray-200 px-4 rounded-2xl">
+            <button
+              onClick={CopyPhoto}
+              className="bg-gray-200 px-4 rounded-2xl"
+            >
               Add&nbsp;Photo
             </button>
           </div>
 
-          
           <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 mt-4 gap-2">
-            {addPhoto.length > 0 && addPhoto.map((link, index) => (
-                <img src={'http://localhost:4000/uploads/'+link} key={index}  alt="Uploaded" className="rounded-2xl" />
-            ))}
-            <label className='flex gap-1 justify-center border rounded-2xl items-center border-gray-300 '>
-            <input type='file' className='hidden' onChange={UploadPhoto}/>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 ">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-</svg>
-
-          </label>
+            {addPhoto.length > 0 &&
+              addPhoto.map((link, index) => (
+                <img
+                  src={'http://localhost:4000/uploads/' + link}
+                  key={index}
+                  alt="Uploaded"
+                  className="rounded-2xl"
+                />
+              ))}
+            <label className="flex gap-1 justify-center border rounded-2xl items-center border-gray-300 ">
+              <input type="file" className="hidden" onChange={UploadPhoto} />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 "
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+                />
+              </svg>
+            </label>
           </div>
-          
+
           {preInput('Description', 'Description of the place')}
-          <textarea value={description} onChange={(e) => setDescription(e.target.value)} />
+          <textarea
+            value={description}
+            onChange={e => setDescription(e.target.value)}
+          />
           {preInput('Perks', 'Select all the perks of your place')}
           <div className="gap-2 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-2">
             <Perk selected={perks} onChange={setPerks} />
           </div>
           {preInput('Extra Info', 'House rules, etc.')}
-          <textarea value={extraInfo} onChange={(e) => setExtraInfo(e.target.value)} />
-          {preInput('Check-in & out times', 'Add check-in & out times, remember to allow some time for cleaning')}
+          <textarea
+            value={extraInfo}
+            onChange={e => setExtraInfo(e.target.value)}
+          />
+          {preInput(
+            'Check-in & out times',
+            'Add check-in & out times, remember to allow some time for cleaning'
+          )}
           <div className="grid sm:grid-cols-3 gap-1">
             <div>
               <h3 className="mt-2 -mb-1">Check-in time</h3>
               <input
                 value={checkIn}
-                onChange={(e) => setCheckIn(e.target.value)}
+                onChange={e => setCheckIn(e.target.value)}
                 type="text"
                 placeholder="14:00"
               />
@@ -155,7 +187,7 @@ const PlacePage = () => {
               <h3 className="mt-2 -mb-1">Check-out time</h3>
               <input
                 value={checkOut}
-                onChange={(e) => setCheckOut(e.target.value)}
+                onChange={e => setCheckOut(e.target.value)}
                 type="text"
                 placeholder="11:00"
               />
@@ -164,7 +196,7 @@ const PlacePage = () => {
               <h3 className="mt-2 -mb-1">Max number of guests</h3>
               <input
                 value={maxGuests}
-                onChange={(e) => setMaxGuests(e.target.value)}
+                onChange={e => setMaxGuests(e.target.value)}
                 type="text"
                 placeholder="4"
               />
