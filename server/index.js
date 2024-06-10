@@ -10,7 +10,7 @@ const app = express();
 
 const cookieParser = require('cookie-parser');
 const bcryptSalt = bcrypt.genSaltSync(10);
-
+hello
 const jwtSecret = 'sangeetamishra';
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(express.json());
