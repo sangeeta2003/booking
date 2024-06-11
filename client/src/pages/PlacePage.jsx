@@ -60,9 +60,9 @@ const PlacePage = () => {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       .then(response => {
-        const { data: filename } = response;
+        const { data: filenames } = response;
         setAddPhoto(prev => {
-          return [...prev, filename];
+          return [...prev, ...filenames];
         });
         console.log(data);
       });
