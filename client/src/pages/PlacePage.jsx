@@ -139,7 +139,7 @@ const PlacePage = () => {
                   className="rounded-2xl"
                 />
               ))}
-            <label className="flex gap-1 justify-center border rounded-2xl items-center border-gray-300 ">
+            <label className=" h-32 flex gap-1 justify-center border rounded-2xl items-center border-gray-300 ">
               <input type="file" multiple className="hidden" onChange={UploadPhoto} />
               <svg
                 xmlns="http://www.w3.org/2000/svg"

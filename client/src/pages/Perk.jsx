@@ -1,8 +1,22 @@
 const Perk = ({ selected, onChange }) => {
+
+function handleCbClick(e){
+
+  const{checked,name} = e.target.value;
+
+  if(checked){
+    onChange([...selected,name])
+  }
+  else{
+    onChange([...selected.filter[selectedName => selectedName != selected]])
+  }
+
+}
+
   return (
     <>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox"name="wifi" onChange={()=>handleCbClick('wifi')} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -21,7 +35,7 @@ const Perk = ({ selected, onChange }) => {
         <span>wifi</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="parking" onChange={()=>handleCbClick('wifi')} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -40,7 +54,7 @@ const Perk = ({ selected, onChange }) => {
         <span>free parking spot</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="Tv" onChange={()=>handleCbClick('wifi')} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -59,7 +73,7 @@ const Perk = ({ selected, onChange }) => {
         <span>TV</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="Radio" onChange={()=>handleCbClick('wifi')}/>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -78,7 +92,7 @@ const Perk = ({ selected, onChange }) => {
         <span>Radio</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="pets" onChange={()=>handleCbClick('wifi')} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -97,7 +111,7 @@ const Perk = ({ selected, onChange }) => {
         <span>Pets</span>
       </label>
       <label className="border p-4 flex rounded-2xl gap-2 items-center cursor-pointer">
-        <input type="checkbox" />
+        <input type="checkbox" name="private" onChange={()=>handleCbClick('wifi')} />
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
