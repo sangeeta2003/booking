@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Perk from './Perk';
-import { response } from 'express';
 
 const PlacePage = () => {
   const { action } = useParams();
@@ -51,7 +50,11 @@ const PlacePage = () => {
   async function UploadPhoto(e) {
     const files = e.target.value;
     const data = new FormData();
-    data.set('photos', files);
+
+    for(let i = 0;i<files.length;i++){
+      data.append('photos',files[i]);
+    }
+   
     await axios
       .post('/upload', data, {
         headers: { 'Content-Type': 'multipart/form-data' },
@@ -137,7 +140,7 @@ const PlacePage = () => {
                 />
               ))}
             <label className="flex gap-1 justify-center border rounded-2xl items-center border-gray-300 ">
-              <input type="file" className="hidden" onChange={UploadPhoto} />
+              <input type="file" multiple className="hidden" onChange={UploadPhoto} />
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

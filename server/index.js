@@ -6,11 +6,12 @@ require('dotenv').config();
 const User = require('./models/user');
 const bcrypt = require('bcryptjs');
 const imageDownloader = require('image-downloader');
+const multer = require('multer');
 const app = express();
 
 const cookieParser = require('cookie-parser');
 const bcryptSalt = bcrypt.genSaltSync(10);
-hello
+
 const jwtSecret = 'sangeetamishra';
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(express.json());
@@ -107,7 +108,11 @@ app.post('/upload-by-link', async (req, res) => {
   }
 });
 
-app.post('/upload');
+const photoMiddleware = multer({dest:'uploads/'})
+app.post('/upload',photoMiddleware.array('photos',100),(req,res)=>{
+ res.json(req.files)
+ console.log(req.files)
+});
 
 app.listen(4000, () => {
   console.log('Server is running on port 4000');
