@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs');
 const imageDownloader = require('image-downloader');
 const multer = require('multer');
 const app = express();
-const fs = require('fs')
+const fs = require('fs');
 
 const cookieParser = require('cookie-parser');
 const bcryptSalt = bcrypt.genSaltSync(10);
@@ -24,10 +24,7 @@ app.use(
   })
 );
 
-mongoose.connect(process.env.MONGO_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGO_URL);
 
 app.get('/test', (req, res) => {
   res.json('test ok');
@@ -105,27 +102,27 @@ app.post('/upload-by-link', async (req, res) => {
     });
     res.json(newName);
   } catch (error) {
+    console.error('Error downloading image:', error); 
     res.status(500).json('Error downloading image');
   }
 });
 
-const photoMiddleware = multer({dest:'uploads/'});
-app.post('/upload',photoMiddleware.array('photos',100),(req,res)=>{
+
+const photoMiddleware = multer({ dest: 'uploads/' });
+app.post('/upload', photoMiddleware.array('photos', 100), (req, res) => {
   const uploadFiles = [];
-  for(let i = 0;i< req.files.length;i++){
-const {path,originalname} = req.files[i];
-const parts = originalname.split('.');
-
-const ext = parts[parts.length - 1];
-const newPath = path + '.' + ext;
-
-fs.renameSync(path,newPath);
-uploadFiles.push(newPath.replace('uploads/',''))
+  for (let i = 0; i < req.files.length; i++) {
+    const { path, originalname } = req.files[i];
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+    const newPath = path + '.' + ext;
+    fs.renameSync(path, newPath);
+    uploadFiles.push(newPath.replace('uploads/', ''));
   }
   res.json(uploadFiles);
- 
 });
 
-app.listen(4000, () => {
-  console.log('Server is running on port 4000');
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
