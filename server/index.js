@@ -102,11 +102,10 @@ app.post('/upload-by-link', async (req, res) => {
     });
     res.json(newName);
   } catch (error) {
-    console.error('Error downloading image:', error); 
+    console.error('Error downloading image:', error);
     res.status(500).json('Error downloading image');
   }
 });
-
 
 const photoMiddleware = multer({ dest: 'uploads/' });
 
@@ -136,7 +135,6 @@ app.post('/upload', photoMiddleware.array('photos', 100), (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-
+import axios from 'axios';
 import Perk from './Perk';
 import Photos from './Photos';
 
@@ -9,7 +9,7 @@ const PlacePage = () => {
   const [title, setTitle] = useState('');
   const [address, setAddress] = useState('');
   const [addPhoto, setAddPhoto] = useState([]);
-  
+
   const [description, setDescription] = useState('');
   const [perks, setPerks] = useState([]);
   const [extraInfo, setExtraInfo] = useState('');
@@ -34,7 +34,22 @@ const PlacePage = () => {
     );
   }
 
-  
+  async function addNewPlace(e) {
+    e.preventDefault();
+
+    const Placedata = {
+      title,
+      address,
+      addPhoto,
+      description,
+      perks,
+      extraInfo,
+      checkIn,
+      checkOut,
+      maxGuests,
+    };
+    const { data } = await axios.post('/places', Placedata);
+  }
 
   return (
     <div>
@@ -63,7 +78,7 @@ const PlacePage = () => {
         </div>
       )}
       {action === 'new' && (
-        <form>
+        <form onSubmit={addNewPlace}>
           {preInput('Title', 'Title for your place and be comfort for this')}
           <input
             value={title}
@@ -81,7 +96,7 @@ const PlacePage = () => {
             className="w-full rounded-full py-2 border border-gray-300"
           />
           {preInput('Photos', 'More = better')}
-         <Photos addPhoto={addPhoto} onChange={setAddPhoto}/>
+          <Photos addPhoto={addPhoto} onChange={setAddPhoto} />
 
           {preInput('Description', 'Description of the place')}
           <textarea
