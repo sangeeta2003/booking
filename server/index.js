@@ -109,18 +109,34 @@ app.post('/upload-by-link', async (req, res) => {
 
 
 const photoMiddleware = multer({ dest: 'uploads/' });
+
+// Ensure the uploads directory exists
+if (!fs.existsSync('uploads')) {
+  fs.mkdirSync('uploads');
+}
+
 app.post('/upload', photoMiddleware.array('photos', 100), (req, res) => {
-  const uploadFiles = [];
-  for (let i = 0; i < req.files.length; i++) {
-    const { path, originalname } = req.files[i];
-    const parts = originalname.split('.');
-    const ext = parts[parts.length - 1];
-    const newPath = path + '.' + ext;
-    fs.renameSync(path, newPath);
-    uploadFiles.push(newPath.replace('uploads/', ''));
+  try {
+    const uploadedFiles = [];
+    for (let i = 0; i < req.files.length; i++) {
+      const { path: tempPath, originalname } = req.files[i];
+      const ext = path.extname(originalname);
+      const newPath = tempPath + ext;
+
+      // Move the file to its new path
+      fs.renameSync(tempPath, newPath);
+
+      // Remove the 'uploads/' prefix before sending the response
+      const relativePath = newPath.replace(/^uploads\//, '');
+      uploadedFiles.push(relativePath);
+    }
+    res.json(uploadedFiles);
+  } catch (error) {
+    console.error('Error handling file upload:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-  res.json(uploadFiles);
 });
+
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
