@@ -10,6 +10,8 @@ const multer = require('multer');
 const app = express();
 const fs = require('fs');
 
+const Place = require('./models/Place')
+
 const cookieParser = require('cookie-parser');
 const bcryptSalt = bcrypt.genSaltSync(10);
 
@@ -135,6 +137,39 @@ app.post('/upload', photoMiddleware.array('photos', 100), (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+app.post('/places',async(req,res)=>{  
+
+  const token = req.cookies;
+  const{ title,
+    address,
+    addPhoto,
+    description,
+    perks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,} = req.body;
+    jwt.verify(token, jwtSecret, {}, async (e, userData) => {
+      if (e) {
+        throw e;
+      }
+     const Placedoc =  await Place.create({ 
+        owner:userData.id,
+        title,
+        address,
+        addPhoto,
+        description,
+        perks,
+        extraInfo,
+        checkIn,
+        checkOut,
+        maxGuests,
+  })
+  res.json(Placedoc)
+});
+
+})
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

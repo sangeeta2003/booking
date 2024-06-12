@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, Navigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Perk from './Perk';
 import Photos from './Photos';
@@ -16,6 +16,7 @@ const PlacePage = () => {
   const [checkIn, setCheckIn] = useState('');
   const [checkOut, setCheckOut] = useState('');
   const [maxGuests, setMaxGuests] = useState('');
+  const[redirectToPlacesList,setRedirectToPlacesList] = useState(false);
 
   function inputHeader(text) {
     return <h2 className="text-2xl mt-4">{text}</h2>;
@@ -37,7 +38,8 @@ const PlacePage = () => {
   async function addNewPlace(e) {
     e.preventDefault();
 
-    const Placedata = {
+    
+  await axios.post('/places',{
       title,
       address,
       addPhoto,
@@ -47,8 +49,13 @@ const PlacePage = () => {
       checkIn,
       checkOut,
       maxGuests,
-    };
-    const { data } = await axios.post('/places', Placedata);
+
+    });
+    setRedirectToPlacesList(true)
+  }
+
+  if(redirectToPlacesList && !action){
+    return <Navigate to={'/account/places'}/>
   }
 
   return (
